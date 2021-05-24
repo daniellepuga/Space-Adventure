@@ -4,7 +4,7 @@
 
 int main (int argc, char *argv[]) {
   char *name;
-  name = intro();
+  name = start();
   planet(name);
   exit();
 }
