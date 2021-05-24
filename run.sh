@@ -1,1 +1,1 @@
-gcc -Wall -g -o main.c main.h
+gcc -Wall -g -o CSpaceAdventure.out main.c main.h
