@@ -1,12 +1,29 @@
 // Main function for our Space Exploration.
 
-#include "main.h"
+#include<main.h>
+#include<json-c/json.h>
+#include<planetarySystem.json>
 
 int main (int argc, char *argv[]) {
   char *name;
   name = start();
   planet_prompt(name);
   exit();
+
+  FILE *fp;
+
+  fp = fopen("planetarySystem.json","r");
+	fread(buffer, 1024, 1, fp);
+	fclose(fp);
+
+	parsed_json = json_tokener_parse(buffer);
+
+	char read_name = json_object_object_get_ex(parsed_json, "name", &name);
+	char description = json_object_object_get_ex(parsed_json, "description", &description);
+
+	printf("Planet name: %s\n", json_object_get_string(name));
+	printf("Planet description: %d\n", json_object_get_int(description));
+
 }
 
 char *start(void){
@@ -27,11 +44,8 @@ int random_planet(void){
     return 2;
 }
 
-void *get_planet_info(int p_index){
-  // Placeholder - Venus
-    venus->planet_name = "Venus";
-    venus->planet_desc = "It's very cloudy here!";
-    return venus;
+void *get_planet_info(int planet_index){
+    // return venus;
 }
 
 void planet_prompt(char *name){
@@ -47,7 +61,7 @@ void planet_prompt(char *name){
 
     while(!Y_or_N_affirmation(affirmation)){
         printf("Shall I randomly choose a planet for you to visit? (Y or N)\n");
-        scanf("%s", & affirmation);
+        scanf("%s", &affirmation);
         if(Y_or_N_affirmation(affirmation)){
         }
         else{
@@ -62,14 +76,13 @@ void planet_prompt(char *name){
     else{
         printf("What planet would you like to visit?\n");
         scanf("%s", planet_name);
-        planet_index = lookup_planet(planet_name);
+        planet_index = planet_search(planet_name);
     }
 }
 
 int Y_or_N_affirmation(char affirmation){
     return (affirmation == 'Y') || (affirmation == 'N');
 }
-
 
 int lookup_planet(char *planet_name){
     if(strcmp(planet_name, "Venus") != 0){
@@ -78,3 +91,4 @@ int lookup_planet(char *planet_name){
     }
     return 2; 
 }
+
