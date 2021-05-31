@@ -8,7 +8,6 @@ int main (int argc, char *argv[]) {
   char *name;
   name = start();
   planet_prompt(name);
-  exit();
 
   FILE *fp;
 
@@ -23,6 +22,8 @@ int main (int argc, char *argv[]) {
 
 	printf("Planet name: %s\n", json_object_get_string(name));
 	printf("Planet description: %d\n", json_object_get_int(description));
+
+  exit();
 
 }
 
