@@ -1,6 +1,7 @@
 // Main function for our Space Exploration.
 
 #include<main.h>
+// still trying to get json C working properly
 #include<json-c/json.h>
 #include<planetarySystem.json>
 
@@ -9,6 +10,7 @@ int main (int argc, char *argv[]) {
   name = start();
   planet_prompt(name);
 
+  // json C logic to parse json file
   FILE *fp;
 
   fp = fopen("planetarySystem.json","r");
@@ -17,14 +19,15 @@ int main (int argc, char *argv[]) {
 
 	parsed_json = json_tokener_parse(buffer);
 
+  // variables to get name and description of each planet
 	char read_name = json_object_object_get_ex(parsed_json, "name", &name);
 	char description = json_object_object_get_ex(parsed_json, "description", &description);
 
+  // testing our planet names and descriptions to see if they work
 	printf("Planet name: %s\n", json_object_get_string(name));
 	printf("Planet description: %d\n", json_object_get_int(description));
 
   exit();
-
 }
 
 char *start(void){
@@ -42,6 +45,7 @@ char *start(void){
 int random_planet(void){
     // FIXME 
     // needs to return actually random planet_index
+    // only returns venus index
     return 2;
 }
 
@@ -57,6 +61,7 @@ void planet_prompt(char *name){
     int planet_index = -1;
     char *planet_name = malloc(sizeof(char*));
 
+    // strings guiding the player through the text game
     printf("Nice to meet you, %s. My name is Eliza. I'm an old friend of Alexa.\n", name);
     printf("Let's go on an adventure!");
 
@@ -70,15 +75,14 @@ void planet_prompt(char *name){
           printf("Shall I randomly choose a planet for you to visit? (Y or N)\n");
         }
     }
-
-    if(affirmation == 'Y'){
-        planet_index = random_planet();
-    }
-    else{
-        printf("What planet would you like to visit?\n");
-        scanf("%s", planet_name);
-        planet_index = planet_search(planet_name);
-    }
+      if(affirmation == 'Y'){
+          planet_index = random_planet();
+      }
+      else{
+          printf("What planet would you like to visit?\n");
+          scanf("%s", planet_name);
+          planet_index = planet_search(planet_name);
+      }
 }
 
 int Y_or_N_affirmation(char affirmation){
@@ -92,4 +96,3 @@ int lookup_planet(char *planet_name){
     }
     return 2; 
 }
-
